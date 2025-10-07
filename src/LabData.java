@@ -23,4 +23,8 @@ public class LabData implements Serializable {
     public void leerPacientes() {
     
     }
+
+    public void leerTecnicos(){
+        //marcos leeme estagit
+    }
 }
