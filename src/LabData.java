@@ -21,7 +21,26 @@ public class LabData implements Serializable {
     }
 
     public void leerPacientes() {
-    
+        // leo pacientes
+        // pruebo
+        // gg
+        // pedro
+        // pedro
+        // pedro
+        /*
+        a
+        a
+        a
+        a
+        a
+        a
+        a
+        a
+        a
+        a
+        a
+        a
+         */
     }
 
     public void leerTecnicos(){
