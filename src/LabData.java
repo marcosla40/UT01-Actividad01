@@ -1,3 +1,13 @@
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +53,57 @@ public class LabData implements Serializable {
          */
     }
 
-    public void leerTecnicos(){
-        //marcos leeme estagit
+    public static List<Tecnico> leerTecnicos(String rutaFichero) {
+
+        List<Tecnico> personas;
+
+        // 1) Cargar el archivo XML
+        File file = new File(rutaFichero);
+
+        try {
+            // 2) Crear el parser de XML (DocumentBuilder)
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder parser = factory.newDocumentBuilder();
+
+            // 3) Parsear el archivo y obtener el documento en memoria
+            Document doc = parser.parse(file);
+
+            // 4) Obtener la lista de nodos <persona>
+            NodeList lista = doc.getElementsByTagName("person");
+
+            // 5) Crear lista Java para guardar las personas
+            personas = new ArrayList<>();
+
+            System.out.println(lista.getLength());
+
+            // 6) Recorrer cada nodo <persona>
+            for (int i = 0; i < lista.getLength(); i++) {
+                Element e = (Element) lista.item(i); // Convertir el nodo a Element
+
+                // 7) Extraer cada campo del XML
+                int id = Integer.parseInt(
+                        e.getElementsByTagName("id").item(0).getTextContent()
+                );
+
+                String nombre =
+                        e.getElementsByTagName("name").item(0).getTextContent();
+
+                String turno;
+
+                String apellido;
+
+                //TODO Instanciar un objeto persona con los datos de id, nombre y edad
+                Tecnico tecnico = new Tecnico(id, nombre,apellido, turno);
+
+                //TODO Añadir la persona a la lista personas
+                personas.add(tecnico);
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //TODO retornar la lista de personas
+        return personas;
     }
 }
