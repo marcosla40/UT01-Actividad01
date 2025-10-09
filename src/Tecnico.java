@@ -43,4 +43,14 @@ public class Tecnico {
     public void setTurno(String turno) {
         this.turno = turno;
     }
+
+    @Override
+    public String toString() {
+        return "Tecnico{" +
+                "idTecnico='" + idTecnico + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", turno='" + turno + '\'' +
+                '}';
+    }
 }

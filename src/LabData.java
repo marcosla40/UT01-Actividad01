@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -62,22 +63,24 @@ public class LabData implements Serializable {
             String linea;
             while ((linea = br.readLine()) != null) { // lee la linea y si hay un tecnico inicia el bucle
                 String[] partes = linea.split("\t");
-
                 String id = partes[0];
                 String nombre = partes[1];
-                String apellido = partes[3];
-                String turno = partes[4];
+                String apellido = partes[2];
+                String turno = partes[3];
 
                 Tecnico t = new Tecnico(id, nombre, apellido, turno);
                 tecnicos.put(id, t); // put(clave principal, valor)
-
-                br.close();
             }
-
         } catch (IOException e) {
             System.out.println("Error al leer el fichero: " + rutaFichero);
+            e.printStackTrace();
         }
-
+        /*
+        LEER TECNICOS
+        for (Tecnico t : tecnicos.values()) {
+            System.out.println(t.toString());
+        }
+        */
         return tecnicos;
     }
 
