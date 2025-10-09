@@ -103,7 +103,7 @@ public class LabData implements Serializable {
      * Escribe los datos generando los ficheros de salida en ./data/out
      */
 
-    public void generarMuestrasConsolidado(HashMap<String, Paciente> pacientes, HashMap<String, Tecnico> tecnicos, ArrayList<Muestra> muestras, String ruta_muestrasConsolidado) {
+    public void generarMuestrasConsolidado(String ruta_muestrasConsolidado) {
 
         try {
             FileWriter fw = new FileWriter(ruta_muestrasConsolidado);
@@ -125,9 +125,7 @@ public class LabData implements Serializable {
             bw.close();
             fw.close();
 
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (RuntimeException | IOException e) {
             throw new RuntimeException(e);
         }
 
