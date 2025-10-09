@@ -30,6 +30,7 @@ public class LabData implements Serializable {
     public static HashMap<String, Paciente> leerPacientes(String ruta) {
 
         HashMap<String, Paciente> pacientes = new HashMap<>();
+
         try {
             //creamos el objeto FileReader y BufferedReader
             FileReader fr = new FileReader(ruta);
@@ -70,11 +71,11 @@ public class LabData implements Serializable {
                 Tecnico t = new Tecnico(id, nombre, apellido, turno);
                 tecnicos.put(id, t); // put(clave principal, valor)
 
+                br.close();
             }
 
         } catch (IOException e) {
             System.out.println("Error al leer el fichero: " + rutaFichero);
-            e.printStackTrace();
         }
 
         return tecnicos;
