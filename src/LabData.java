@@ -1,7 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class LabData implements Serializable {
@@ -13,7 +15,7 @@ public class LabData implements Serializable {
 
         HashMap<String, Paciente> pacientes = leerPacientes(ruta_pacientes);
         HashMap<String, Tecnico> tecnicos = leerTecnicos(ruta_tecnicos);
-        List<Muestra> muestras;
+        ArrayList<Muestra> muestras = leerMuestras(ruta_muestras);
 
         pacientes = leerPacientes(ruta_pacientes);
 
@@ -75,21 +77,20 @@ public class LabData implements Serializable {
         return tecnicos;
     }
 
-    /** Escribe los datos generando los ficheros de salida en ./data/out
+    /**
+     * Escribe los datos generando los ficheros de salida en ./data/out
      */
-    public void generarMuestrasConsolidado(){
+    public void generarMuestrasConsolidado() {
 //TODO
     }
 
 
-    public ArrayList<Object> leerMuestras() {
+    public static ArrayList<Muestra> leerMuestras(String ruta_muestras) {
 
-        ArrayList muestras = new ArrayList<>();
+        ArrayList <Muestra> muestras = new ArrayList<>();
 
 
-        String ruta = "./data/in/muestras.psv";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ruta_muestras))) {
 
             String linea;
 
@@ -107,11 +108,8 @@ public class LabData implements Serializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    public void generarMuestrasAppExterna(){
-//TODO
-    }
-    public void generarSerializado(){
-//TODO
-    }
 
+
+        return muestras;
+    }
 }
