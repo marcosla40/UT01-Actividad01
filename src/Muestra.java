@@ -1,12 +1,10 @@
-import java.util.Date;
-
 public class Muestra {
 private String idMuestra;
 private String idPaciente;
 private String idTecnico;
 private String tipo;
 
-    public Muestra(String idMuestra, String idPaciente, String idTecnico, String tipo) {
+    public Muestra(String idMuestra, String idPaciente, String idTecnico, String tipo, String parte, String s) {
         this.idMuestra = idMuestra;
         this.idPaciente = idPaciente;
         this.idTecnico = idTecnico;
