@@ -15,6 +15,30 @@ public class LabData implements Serializable {
         this.muestras = muestras;
     }
 
+    public HashMap<String, Paciente> getPacientes() {
+        return pacientes;
+    }
+
+    public void setPacientes(HashMap<String, Paciente> pacientes) {
+        this.pacientes = pacientes;
+    }
+
+    public HashMap<String, Tecnico> getTecnicos() {
+        return tecnicos;
+    }
+
+    public void setTecnicos(HashMap<String, Tecnico> tecnicos) {
+        this.tecnicos = tecnicos;
+    }
+
+    public ArrayList<Muestra> getMuestras() {
+        return muestras;
+    }
+
+    public void setMuestras(ArrayList<Muestra> muestras) {
+        this.muestras = muestras;
+    }
+
     public static HashMap<String, Paciente> leerPacientes(String ruta) {
 
         HashMap<String, Paciente> pacientes = new HashMap<>();
