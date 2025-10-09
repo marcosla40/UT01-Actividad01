@@ -18,7 +18,7 @@ public class Main {
 
         LabData lab = new LabData(pacientes, tecnicos, muestras);
 
-        lab.generarMuestrasConsolidado(pacientes,tecnicos,muestras,ruta_muestrasConsolidado);
+        lab.generarMuestrasConsolidado(ruta_muestrasConsolidado);
         lab.generarSerializado(ruta_serializado);
     }
 }
