@@ -19,8 +19,8 @@ public class LabData implements Serializable {
         final String ruta_tecnicos = "./data/in/tecnicos.tsv";
         final String ruta_muestras = "./data/in/muestras.psv";
 
-        HashMap<String, Paciente> pacientes = null;
-        HashMap<String, Tecnico> tecnicos;
+        HashMap<String, Paciente> pacientes = leerPacientes(ruta_pacientes);
+        HashMap<String, Tecnico> tecnicos = leerTecnicos(ruta_tecnicos);
         List<Muestra> muestras;
 
         pacientes = leerPacientes(ruta_pacientes);
