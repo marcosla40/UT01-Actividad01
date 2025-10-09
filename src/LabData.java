@@ -6,9 +6,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -20,37 +18,40 @@ public class LabData implements Serializable {
     final String ruta_tecnicos = "./data/in/tecnicos.tsv";
     final String ruta_muestras = "./data/in/muestras.psv";
 
-    private HashMap<String, Paciente> pacientes;
-    private HashMap<String, Tecnico> tecnicos;
-    private List<Muestra> muestras;
+    public static void main(String[] args) {
+        HashMap<String, Paciente> pacientes = null;
+        HashMap<String, Tecnico> tecnicos;
+        List<Muestra> muestras;
 
-    public LabData() {
-        this.pacientes = new LinkedHashMap<>();
-        this.tecnicos = new LinkedHashMap<>();
-        this.muestras = new ArrayList<>();
+        pacientes = leerPacientes();
     }
 
-    public void leerPacientes() {
-        // leo pacientes
-        // pruebo
-        // gg
-        // pedro
-        // pedro
-        // pedro
-        /*
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-         */
+    public static HashMap<String, Paciente> leerPacientes() {
+        //añadimos la ruta
+
+        String ruta = "./data/in/pacientes.csv";
+        HashMap<String, Paciente> pacientes = new HashMap<>();
+        try {
+            //creamos el objeto FileReader y BufferedReader
+            FileReader fr = new FileReader(ruta);
+            BufferedReader br = new BufferedReader(fr);
+            String linea = "";
+
+            //imprimimos las lineas del fichero
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+                Paciente paciente = new Paciente(partes[0], partes[1], partes[2], partes[3]);
+                pacientes.put(partes[0], paciente);
+            }
+            System.out.println(pacientes);
+            fr.close();
+            br.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return pacientes;
+
     }
 
     public static List<Tecnico> leerTecnicos(String rutaFichero) {
@@ -93,10 +94,10 @@ public class LabData implements Serializable {
                 String apellido;
 
                 //TODO Instanciar un objeto persona con los datos de id, nombre y edad
-                Tecnico tecnico = new Tecnico(id, nombre,apellido, turno);
+                // Tecnico tecnico = new Tecnico(id, nombre,apellido, turno);
 
                 //TODO Añadir la persona a la lista personas
-                personas.add(tecnico);
+                // personas.add(tecnico);
             }
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -106,4 +107,20 @@ public class LabData implements Serializable {
         //TODO retornar la lista de personas
         return personas;
     }
+
+    /**
+     * Escribe los datos generando los ficheros de salida en ./data/out
+     */
+    public void generarMuestrasConsolidado(HashMap<String, Paciente> pacientes) {
+
+    }
+
+    public void generarMuestrasAppExterna() {
+//TODO
+    }
+
+    public void generarSerializado() {
+//TODO
+    }
+
 }
