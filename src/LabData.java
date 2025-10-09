@@ -6,9 +6,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -25,8 +23,8 @@ public class LabData implements Serializable {
     private List<Muestra> muestras;
 
     public LabData() {
-        this.pacientes = new LinkedHashMap<>();
-        this.tecnicos = new LinkedHashMap<>();
+        this.pacientes = new HashMap<>();
+        this.tecnicos = new HashMap<>();
         this.muestras = new ArrayList<>();
     }
 
@@ -53,57 +51,30 @@ public class LabData implements Serializable {
          */
     }
 
-    public static List<Tecnico> leerTecnicos(String rutaFichero) {
+    public static HashMap<String, Tecnico> leerTecnicos(String rutaFichero) {
 
-        List<Tecnico> personas;
+        HashMap<String, Tecnico> tecnicos = new HashMap<>();
 
-        // 1) Cargar el archivo XML
-        File file = new File(rutaFichero);
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaFichero))) {
+            String linea;
+            while ((linea = br.readLine()) != null) { // lee la linea y si hay un tecnico inicia el bucle
+                String[] partes = linea.split("\t");
 
-        try {
-            // 2) Crear el parser de XML (DocumentBuilder)
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder parser = factory.newDocumentBuilder();
+                String id = partes[0];
+                String nombre = partes[1];
+                String apellido = partes[3];
+                String turno = partes[4];
 
-            // 3) Parsear el archivo y obtener el documento en memoria
-            Document doc = parser.parse(file);
+                Tecnico t = new Tecnico(id, nombre, apellido, turno);
+                tecnicos.put(id, t); // put(clave principal, valor)
 
-            // 4) Obtener la lista de nodos <persona>
-            NodeList lista = doc.getElementsByTagName("person");
-
-            // 5) Crear lista Java para guardar las personas
-            personas = new ArrayList<>();
-
-            System.out.println(lista.getLength());
-
-            // 6) Recorrer cada nodo <persona>
-            for (int i = 0; i < lista.getLength(); i++) {
-                Element e = (Element) lista.item(i); // Convertir el nodo a Element
-
-                // 7) Extraer cada campo del XML
-                int id = Integer.parseInt(
-                        e.getElementsByTagName("id").item(0).getTextContent()
-                );
-
-                String nombre =
-                        e.getElementsByTagName("name").item(0).getTextContent();
-
-                String turno;
-
-                String apellido;
-
-                //TODO Instanciar un objeto persona con los datos de id, nombre y edad
-                Tecnico tecnico = new Tecnico(id, nombre,apellido, turno);
-
-                //TODO Añadir la persona a la lista personas
-                personas.add(tecnico);
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero: " + rutaFichero);
+            e.printStackTrace();
         }
 
-        //TODO retornar la lista de personas
-        return personas;
+        return tecnicos;
     }
 }
