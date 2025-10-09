@@ -1,0 +1,5 @@
+#id_muestra,id_paciente,paciente_nombre,paciente_apellido,id_tecnico,tecnico_nombre,tecnico_apellido,tipo,estado
+M001,P001,Alicia,Pérez,T01,Nuria,Suárez,Sangre
+M002,P002,Luis,Gómez,T02,Raúl,Prado,Orina
+M003,P003,Eva,Díaz,T01,Nuria,Suárez,Saliva
+M004,P001,Alicia,Pérez,T02,Raúl,Prado,Sangre

@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,12 +10,13 @@ public class LabData implements Serializable {
         final String ruta_tecnicos = "./data/in/tecnicos.tsv";
         final String ruta_muestras = "./data/in/muestras.psv";
 
+        final String ruta_muestrasConsolidado = "data/out/muestras_consolidado.csv";
+
         HashMap<String, Paciente> pacientes = leerPacientes(ruta_pacientes);
         HashMap<String, Tecnico> tecnicos = leerTecnicos(ruta_tecnicos);
         ArrayList<Muestra> muestras = leerMuestras(ruta_muestras);
 
-        pacientes = leerPacientes(ruta_pacientes);
-
+        generarMuestrasConsolidado(pacientes,tecnicos,muestras,ruta_muestrasConsolidado);
     }
 
     public static HashMap<String, Paciente> leerPacientes(String ruta) {
@@ -77,17 +75,9 @@ public class LabData implements Serializable {
         return tecnicos;
     }
 
-    /**
-     * Escribe los datos generando los ficheros de salida en ./data/out
-     */
-    public void generarMuestrasConsolidado() {
-//TODO
-    }
-
-
     public static ArrayList<Muestra> leerMuestras(String ruta_muestras) {
 
-        ArrayList <Muestra> muestras = new ArrayList<>();
+        ArrayList<Muestra> muestras = new ArrayList<>();
 
 
         try (BufferedReader br = new BufferedReader(new FileReader(ruta_muestras))) {
@@ -96,7 +86,7 @@ public class LabData implements Serializable {
 
             while ((linea = br.readLine()) != null) {
 
-                String[] partes = linea.split("|");
+                String[] partes = linea.split("\\|");
                 Muestra muestra = new Muestra(partes[0], partes[1], partes[2], partes[3], partes[4], partes[5]);
                 muestras.add(muestra);
                 System.out.println("Muestra" + muestra);
@@ -112,4 +102,39 @@ public class LabData implements Serializable {
 
         return muestras;
     }
+
+    /**
+     * Escribe los datos generando los ficheros de salida en ./data/out
+     */
+    public static void generarMuestrasConsolidado(HashMap<String, Paciente> pacientes, HashMap<String, Tecnico> tecnicos, ArrayList<Muestra> muestras, String ruta_muestrasConsolidado) {
+
+        try {
+            FileWriter fw = new FileWriter(ruta_muestrasConsolidado);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            bw.write("#id_muestra,id_paciente,paciente_nombre,paciente_apellido,id_tecnico,tecnico_nombre,tecnico_apellido,tipo,estado");
+            bw.newLine();
+
+            for (int i = 0; i < muestras.size(); i++) {
+
+                Muestra m = muestras.get(i);
+                Paciente p = pacientes.get(m.getIdPaciente());
+                Tecnico t = tecnicos.get(m.getIdTecnico());
+
+                String linea = m.getIdMuestra() + "," + m.getIdPaciente() + "," + p.getNombre() + "," + p.getApellido() + "," + m.getIdTecnico() + "," + t.getNombre() + "," + t.getApellido() + "," + m.getTipo();
+                bw.write(linea);
+                bw.newLine();
+            }
+            bw.close();
+            fw.close();
+
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 }
