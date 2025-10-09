@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,39 +6,79 @@ import java.util.List;
 
 public class LabData implements Serializable {
 
-    final String ruta_pacientes = "./data/in/pacientes.csv";
-    final String ruta_tecnicos = "./data/in/tecnicos.tsv";
-    final String ruta_muestras = "./data/in/muestras.psv";
+    public static void main(String[] args) {
+        final String ruta_pacientes = "./data/in/pacientes.csv";
+        final String ruta_tecnicos = "./data/in/tecnicos.tsv";
+        final String ruta_muestras = "./data/in/muestras.psv";
 
-    void main(String[] args) {
-        leerMuestras();
+        HashMap<String, Paciente> pacientes = leerPacientes(ruta_pacientes);
+        HashMap<String, Tecnico> tecnicos = leerTecnicos(ruta_tecnicos);
+        List<Muestra> muestras;
+
+        pacientes = leerPacientes(ruta_pacientes);
+
     }
 
-    public void leerPacientes() {
-        // leo pacientes
-        // pruebo
-        // gg
-        // pedro
-        // pedro
-        // pedro
+    public static HashMap<String, Paciente> leerPacientes(String ruta) {
+
+        HashMap<String, Paciente> pacientes = new HashMap<>();
+
+        try {
+            //creamos el objeto FileReader y BufferedReader
+            FileReader fr = new FileReader(ruta);
+            BufferedReader br = new BufferedReader(fr);
+            String linea = "";
+
+            //imprimimos las lineas del fichero
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+                Paciente paciente = new Paciente(partes[0], partes[1], partes[2], partes[3]);
+                pacientes.put(partes[0], paciente);
+            }
+            System.out.println(pacientes);
+            fr.close();
+            br.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return pacientes;
+
+    }
+
+    public static HashMap<String, Tecnico> leerTecnicos(String rutaFichero) {
+
+        HashMap<String, Tecnico> tecnicos = new HashMap<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaFichero))) {
+            String linea;
+            while ((linea = br.readLine()) != null) { // lee la linea y si hay un tecnico inicia el bucle
+                String[] partes = linea.split("\t");
+                String id = partes[0];
+                String nombre = partes[1];
+                String apellido = partes[2];
+                String turno = partes[3];
+
+                Tecnico t = new Tecnico(id, nombre, apellido, turno);
+                tecnicos.put(id, t); // put(clave principal, valor)
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el fichero: " + rutaFichero);
+            e.printStackTrace();
+        }
         /*
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-        a
-         */
+        LEER TECNICOS
+        for (Tecnico t : tecnicos.values()) {
+            System.out.println(t.toString());
+        }
+        */
+        return tecnicos;
     }
 
-    public void leerTecnicos() {
-        //marcos leeme estagit
+    /** Escribe los datos generando los ficheros de salida en ./data/out
+     */
+    public void generarMuestrasConsolidado(){
+//TODO
     }
 
 
@@ -70,10 +107,11 @@ public class LabData implements Serializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        return muestras;
+    public void generarMuestrasAppExterna(){
+//TODO
+    }
+    public void generarSerializado(){
+//TODO
     }
 
 }
-
-
