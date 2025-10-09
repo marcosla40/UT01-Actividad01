@@ -5,24 +5,14 @@ import java.util.List;
 
 public class LabData implements Serializable {
 
-    private static HashMap<String,Paciente> pacientes;
-    private static HashMap<String,Tecnico> tecnicos;
-    private static ArrayList<Muestra> muestras;
+    private HashMap<String,Paciente> pacientes;
+    private HashMap<String,Tecnico> tecnicos;
+    private ArrayList<Muestra> muestras;
 
-    public static void main(String[] args) {
-        final String ruta_pacientes = "./data/in/pacientes.csv";
-        final String ruta_tecnicos = "./data/in/tecnicos.tsv";
-        final String ruta_muestras = "./data/in/muestras.psv";
-
-        final String ruta_muestrasConsolidado = "data/out/muestras_consolidado.csv";
-
-        pacientes = leerPacientes(ruta_pacientes);
-        tecnicos = leerTecnicos(ruta_tecnicos);
-        muestras = leerMuestras(ruta_muestras);
-
-        generarMuestrasConsolidado(pacientes,tecnicos,muestras,ruta_muestrasConsolidado);
-
-        generarSerializado("./data/out/labdata.ser");
+    public LabData(HashMap<String, Paciente> pacientes, HashMap<String, Tecnico> tecnicos, ArrayList<Muestra> muestras) {
+        this.pacientes = pacientes;
+        this.tecnicos = tecnicos;
+        this.muestras = muestras;
     }
 
     public static HashMap<String, Paciente> leerPacientes(String ruta) {
@@ -81,14 +71,6 @@ public class LabData implements Serializable {
         return tecnicos;
     }
 
-    /**
-     * Escribe los datos generando los ficheros de salida en ./data/out
-     */
-    public void generarMuestrasConsolidado() {
-//TODO
-    }
-
-
     public static ArrayList<Muestra> leerMuestras(String ruta_muestras) {
 
         ArrayList<Muestra> muestras = new ArrayList<>();
@@ -117,11 +99,11 @@ public class LabData implements Serializable {
         return muestras;
     }
 
-
     /**
      * Escribe los datos generando los ficheros de salida en ./data/out
      */
-    public static void generarMuestrasConsolidado(HashMap<String, Paciente> pacientes, HashMap<String, Tecnico> tecnicos, ArrayList<Muestra> muestras, String ruta_muestrasConsolidado) {
+
+    public void generarMuestrasConsolidado(HashMap<String, Paciente> pacientes, HashMap<String, Tecnico> tecnicos, ArrayList<Muestra> muestras, String ruta_muestrasConsolidado) {
 
         try {
             FileWriter fw = new FileWriter(ruta_muestrasConsolidado);
@@ -151,18 +133,15 @@ public class LabData implements Serializable {
 
     }
 
-    public static void generarSerializado(String ruta) {
-
-        LabData lab = new LabData();
-
+    public void generarSerializado(String ruta) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta));
-            oos.writeObject(lab);
-            /*
-            System.out.println("Pacientes: " + lab.pacientes.size());
-            System.out.println("Técnicos: " + lab.tecnicos.size());
-            System.out.println("Muestras: " + lab.muestras.size());
-            */
+            oos.writeObject(this);
+
+            System.out.println("Pacientes: " + this.pacientes.size());
+            System.out.println("Técnicos: " + this.tecnicos.size());
+            System.out.println("Muestras: " + this.muestras.size());
+
             System.out.println("Archivo serializado correctamente");
         } catch (IOException e) {
             System.out.println("Error al serializar el objeto");

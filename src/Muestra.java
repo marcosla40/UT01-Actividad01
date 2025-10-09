@@ -1,4 +1,6 @@
-public class Muestra {
+import java.io.Serializable;
+
+public class Muestra implements Serializable {
 private String idMuestra;
 private String idPaciente;
 private String idTecnico;

@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class Paciente {
+public class Paciente implements Serializable {
     private String idPaciente;
     private String nombre;
     private String apellido;

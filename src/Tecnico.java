@@ -1,4 +1,6 @@
-public class Tecnico {
+import java.io.Serializable;
+
+public class Tecnico implements Serializable {
 
     private String idTecnico;
     private String nombre;
