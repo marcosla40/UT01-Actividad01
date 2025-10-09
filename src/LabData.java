@@ -1,24 +1,24 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class LabData implements Serializable {
 
+    private static HashMap<String,Paciente> pacientes;
+    private static HashMap<String,Tecnico> tecnicos;
+    private static ArrayList<Muestra> muestras;
+
     public static void main(String[] args) {
         final String ruta_pacientes = "./data/in/pacientes.csv";
         final String ruta_tecnicos = "./data/in/tecnicos.tsv";
         final String ruta_muestras = "./data/in/muestras.psv";
 
-        HashMap<String, Paciente> pacientes = leerPacientes(ruta_pacientes);
-        HashMap<String, Tecnico> tecnicos = leerTecnicos(ruta_tecnicos);
-        ArrayList<Muestra> muestras = leerMuestras(ruta_muestras);
-
         pacientes = leerPacientes(ruta_pacientes);
+        tecnicos = leerTecnicos(ruta_tecnicos);
+        muestras = leerMuestras(ruta_muestras);
 
+        generarSerializado("./data/out/labdata.ser");
     }
 
     public static HashMap<String, Paciente> leerPacientes(String ruta) {
@@ -77,14 +77,6 @@ public class LabData implements Serializable {
         return tecnicos;
     }
 
-    /**
-     * Escribe los datos generando los ficheros de salida en ./data/out
-     */
-    public void generarMuestrasConsolidado() {
-//TODO
-    }
-
-
     public static ArrayList<Muestra> leerMuestras(String ruta_muestras) {
 
         ArrayList <Muestra> muestras = new ArrayList<>();
@@ -112,4 +104,33 @@ public class LabData implements Serializable {
 
         return muestras;
     }
+
+    /**
+     * Escribe los datos generando los ficheros de salida en ./data/out
+     */
+    public void generarMuestrasConsolidado(String ruta) {
+        //TODO
+
+    }
+
+    public static void generarSerializado(String ruta) {
+
+        LabData lab = new LabData();
+
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta));
+            oos.writeObject(lab);
+            /*
+            System.out.println("Pacientes: " + lab.pacientes.size());
+            System.out.println("Técnicos: " + lab.tecnicos.size());
+            System.out.println("Muestras: " + lab.muestras.size());
+            */
+            System.out.println("Archivo serializado correctamente");
+        } catch (IOException e) {
+            System.out.println("Error al serializar el objeto");
+        }
+    }
+
+
+
 }
