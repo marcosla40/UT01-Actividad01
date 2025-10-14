@@ -155,6 +155,28 @@ public class LabData implements Serializable {
 
     }
 
+    public void generarMuestrasAppExterna() {
+        String ruta = "./data/out/muestras.labdat";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ruta))){
+
+            for (Muestra m : muestras) {
+                String linea = String.join("|",
+                        m.getIdMuestra(),
+                        m.getIdPaciente(),
+                        m.getIdTecnico(),
+                        m.getTipo()
+                );
+                bw.write(linea);
+                bw.newLine();
+            }
+
+            System.out.println("Archivo para app externa generado en " + ruta);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public void generarSerializado(String ruta) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta));

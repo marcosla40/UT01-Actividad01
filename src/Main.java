@@ -11,6 +11,7 @@ public class Main {
 
         final String ruta_muestrasConsolidado = "./data/out/muestras_consolidado.csv";
         final String ruta_serializado = "./data/out/labdata.ser";
+        final String ruta_AppExterna = "./data/out/muestras.labdata";
 
         HashMap<String, Paciente> pacientes = LabData.leerPacientes(ruta_pacientes);
         HashMap<String, Tecnico> tecnicos = LabData.leerTecnicos(ruta_tecnicos);
@@ -20,5 +21,6 @@ public class Main {
 
         lab.generarMuestrasConsolidado(ruta_muestrasConsolidado);
         lab.generarSerializado(ruta_serializado);
+        lab.generarMuestrasAppExterna();
     }
 }
