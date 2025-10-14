@@ -155,8 +155,7 @@ public class LabData implements Serializable {
 
     }
 
-    public void generarMuestrasAppExterna() {
-        String ruta = "./data/out/muestras.labdat";
+    public void generarMuestrasAppExterna(String ruta) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ruta))){
 
             for (Muestra m : muestras) {
@@ -170,7 +169,6 @@ public class LabData implements Serializable {
                 bw.newLine();
             }
 
-            System.out.println("Archivo para app externa generado en " + ruta);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
